@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For My Favorite Person 🎀</title>
+    <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --pink-dark: #ff69b4;
+            --pink-mid: #ffb6c1;
+            --pink-light: #ffe4e1;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(135deg, #ffe4e1 0%, #ffb6c1 100%);
+            font-family: 'VT323', monospace;
+            color: #333;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+
+        /* Container to center everything on desktop */
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        section {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 20px;
+            text-align: center;
+        }
+
+        .pixel-box {
+            background: white;
+            border: 6px double #333;
+            padding: 40px;
+            width: 100%;
+            max-width: 600px;
+            box-shadow: 12px 12px 0px rgba(255, 105, 180, 0.4);
+            position: relative;
+            margin: 0 auto;
+        }
+
+        .pixel-box h1 {
+            font-size: 2.5rem;
+            color: var(--pink-dark);
+            margin-bottom: 20px;
+            text-shadow: 3px 3px 0px var(--pink-light);
+        }
+
+        .pixel-box h2 {
+            font-size: 2rem;
+            color: var(--pink-dark);
+            margin-bottom: 15px;
+        }
+
+        .pixel-box p {
+            font-size: 1.3rem;
+            line-height: 1.6;
+            margin: 15px 0;
+            color: #555;
+        }
+
+        /* Timer section improvements */
+        .timer-section {
+            margin: 30px 0;
+        }
+
+        .timer-label {
+            font-size: 1.5rem;
+            color: var(--pink-dark);
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+
+        #timer {
+            font-size: 2.5rem;
+            color: var(--pink-dark);
+            margin: 15px 0;
+            border: 4px dashed var(--pink-dark);
+            padding: 20px;
+            background: #fffafa;
+            box-shadow: 0 4px 15px rgba(255, 105, 180, 0.2);
+        }
+
+        /* Music button */
+        .music-container { 
+            margin: 25px 0; 
+        }
+
+        #playBtn {
+            font-family: 'VT323', monospace;
+            padding: 15px 35px;
+            cursor: pointer;
+            background: white;
+            border: 4px solid #333;
+            box-shadow: 6px 6px 0px var(--pink-dark);
+            font-size: 1.4rem;
+            transition: all 0.2s;
+        }
+
+        #playBtn:hover {
+            transform: translate(2px, 2px);
+            box-shadow: 4px 4px 0px var(--pink-dark);
+        }
+
+        #playBtn:active {
+            transform: translate(6px, 6px);
+            box-shadow: 0px 0px 0px var(--pink-dark);
+        }
+
+        /* Gallery improvements - centered and responsive */
+        .gallery-section {
+            padding: 60px 20px;
+        }
+
+        .gallery-section h2 {
+            color: var(--pink-dark);
+            font-size: 2.5rem;
+            margin-bottom: 40px;
+            text-shadow: 3px 3px 0px rgba(255, 105, 180, 0.2);
+        }
+
+        .gallery-wrapper {
+            perspective: 1500px;
+            height: 450px;
+            width: 100%;
+            max-width: 800px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .carousel {
+            width: 240px;
+            height: 360px;
+            position: relative;
+            transform-style: preserve-3d;
+            animation: spin 25s linear infinite;
+        }
+
+        .carousel:hover { 
+            animation-play-state: paused; 
+        }
+
+        .card {
+            position: absolute;
+            width: 240px;
+            height: 360px;
+            background: white;
+            border: 4px solid var(--pink-dark);
+            overflow: hidden;
+            backface-visibility: hidden;
+            display: flex;
+            flex-direction: column;
+            left: 0;
+            top: 0;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .card img { 
+            width: 100%; 
+            height: 70%; 
+            object-fit: cover;
+            background: linear-gradient(135deg, #ffe4e1, #ffb6c1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+        }
+
+        .card-content { 
+            padding: 15px; 
+            font-size: 1rem; 
+            text-align: left; 
+            background: white; 
+            flex-grow: 1;
+            line-height: 1.4;
+        }
+
+        .card-content b {
+            color: var(--pink-dark);
+            font-size: 1.2rem;
+        }
+
+        .trivia { 
+            color: #888; 
+            font-size: 0.85rem; 
+            border-top: 1px dotted var(--pink-mid); 
+            margin-top: 8px; 
+            padding-top: 8px;
+            font-style: italic;
+        }
+
+        /* 5 cards at 72 degrees each */
+        .c1 { transform: rotateY(0deg) translateZ(350px); }
+        .c2 { transform: rotateY(72deg) translateZ(350px); }
+        .c3 { transform: rotateY(144deg) translateZ(350px); }
+        .c4 { transform: rotateY(216deg) translateZ(350px); }
+        .c5 { transform: rotateY(288deg) translateZ(350px); }
+
+        @keyframes spin { 
+            from { transform: rotateY(0deg); } 
+            to { transform: rotateY(360deg); } 
+        }
+
+        .gallery-hint {
+            margin-top: 30px;
+            font-size: 1.2rem;
+            color: #666;
+            font-style: italic;
+        }
+
+        /* Valentine question section */
+        .btn-group { 
+            position: relative; 
+            min-height: 200px; 
+            width: 100%; 
+            margin-top: 30px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+        }
+
+        button.choice { 
+            font-family: 'VT323', monospace; 
+            font-size: 2rem; 
+            padding: 15px 40px; 
+            cursor: pointer; 
+            border: 5px solid #333;
+            transition: all 0.3s ease;
+            box-shadow: 5px 5px 0px rgba(0, 0, 0, 0.2);
+        }
+
+        button.choice:hover {
+            transform: translate(2px, 2px);
+            box-shadow: 3px 3px 0px rgba(0, 0, 0, 0.2);
+        }
+
+        #yesBtn { 
+            background: #b0ffb0;
+            position: relative;
+            z-index: 2;
+        }
+
+        #noBtn { 
+            background: #ffb0b0; 
+            position: relative;
+            z-index: 1;
+        }
+        
+        #noBtn.moving {
+            position: fixed;
+        }
+
+        #statusMsg {
+            font-size: 1.3rem;
+            color: var(--pink-dark);
+            margin: 20px 0;
+            min-height: 30px;
+        }
+
+        /* Floating hearts */
+        .floating-heart {
+            position: fixed;
+            pointer-events: none;
+            z-index: 1;
+            font-size: 20px;
+            color: #ff69b4;
+            animation: floatUp 4s linear forwards;
+        }
+
+        @keyframes floatUp {
+            to { 
+                transform: translateY(-110vh) translateX(20px) rotate(15deg); 
+                opacity: 0; 
+            }
+        }
+
+        /* Scroll indicator */
+        .scroll-hint {
+            margin-top: 30px;
+            font-size: 1.5rem;
+            color: var(--pink-dark);
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-10px); }
+            60% { transform: translateY(-5px); }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .pixel-box {
+                padding: 25px;
+            }
+
+            .pixel-box h1 {
+                font-size: 2rem;
+            }
+
+            #timer {
+                font-size: 1.8rem;
+            }
+
+            .gallery-wrapper {
+                height: 400px;
+            }
+
+            .carousel {
+                width: 200px;
+                height: 320px;
+            }
+
+            .card {
+                width: 200px;
+                height: 320px;
+            }
+
+            .c1, .c2, .c3, .c4, .c5 {
+                transform: rotateY(var(--rotation)) translateZ(280px);
+            }
+
+            button.choice {
+                font-size: 1.5rem;
+                padding: 12px 30px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- SECTION 1: INTRO -->
+    <section>
+        <div class="pixel-box">
+            <h1>For You 💝</h1>
+            <p>Hey... I know this is a bit sudden. To be honest, I'm not very good at this stuff in the first place, but in my head I wanted to try and give you something no one's ever done for you before, in the only way I knew how—which is why I came to do this.</p>
+            <div class="music-container">
+                <button id="playBtn">🎵 Play a song you remind me of! 🎀</button>
+                <audio id="myAudio" loop><source src="our-song.mp3" type="audio/mpeg"></audio>
+            </div>
+            <p class="scroll-hint">↓ Scroll down ↓</p>
+        </div>
+    </section>
+
+    <!-- SECTION 2: HEARTFELT MESSAGE & TIMER -->
+    <section>
+        <div class="pixel-box">
+            <h2>You Changed Everything</h2>
+            <p>You made my September. I was in a place where it was hard for me to even breathe... I didn't have anyone beside me, but you changed that in the blink of an eye.</p>
+            
+            <div class="timer-section">
+                <div class="timer-label">Time We've Shared Together ✨</div>
+                <div id="timer">Loading memories...</div>
+            </div>
+            
+            <p>To me, your arrival felt like a ray of sunshine after a gloomy and stormy day. Making you laugh felt exhilarating, a single graze of your skin on mine made an explosion of feelings.</p>
+            <p>To be honest, I don't know how I found you, how I caught you, or how I kept you, but until that clock stops ticking, I'll be by your side.</p>
+        </div>
+    </section>
+
+    <!-- SECTION 3: PHOTO GALLERY -->
+    <section class="gallery-section">
+        <h2>Our Best Moments 📸</h2>
+        <div class="gallery-wrapper"> 
+            <div class="carousel">
+                <div class="card c1">
+                    <img src="photo1.jpg" alt="📷">
+                    <div class="card-content">
+                        <b>Memory 1</b><br>
+                        This was when we first met!
+                        <div class="trivia">Trivia: You took a picture of me!</div>
+                    </div>
+                </div>
+                <div class="card c2">
+                    <img src="photo2.jpg" alt="📷">
+                    <div class="card-content">
+                        <b>Memory 2</b><br>
+                        Our First Photobooth!
+                        <div class="trivia">Trivia: I was still a little nervous on what pose to do...</div>
+                    </div>
+                </div>
+                <div class="card c3">
+                    <img src="photo3.jpg" alt="📷">
+                    <div class="card-content">
+                        <b>Memory 3</b><br>
+                        My favorite photo of you hehe
+                        <div class="trivia">Trivia: You went to that cool cafe!</div>
+                    </div>
+                </div>
+                <div class="card c4">
+                    <img src="photo4.jpg" alt="📷">
+                    <div class="card-content">
+                        <b>Memory 4</b><br>
+                        You look stunning.
+                        <div class="trivia">Trivia: You made me so nervous sending this</div>
+                    </div>
+                </div>
+                <div class="card c5">
+                    <img src="photo5.jpg" alt="💕">
+                    <div class="card-content">
+                        <b>The Future</b><br>
+                        I'll be by your side.
+                        <div class="trivia">Trivia: Forever and ever...</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <p class="gallery-hint">✨ Hover over the carousel to pause it ✨</p>
+    </section>
+
+    <!-- SECTION 4: THE BIG QUESTION -->
+    <section>
+        <div class="pixel-box">
+            <h1 id="questionText">Will you be my Valentine? 💖</h1>
+            <p id="statusMsg">Think about it! ✨</p>
+            <div class="btn-group">
+                <button class="choice" id="yesBtn">YES! 💕</button>
+                <button class="choice" id="noBtn">NO</button>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        // 1. TIMER LOGIC
+        const start = new Date("September 28, 2024 00:00:00").getTime();
+        
+        function updateTimer() {
+            const now = new Date().getTime();
+            const diff = now - start;
+            const d = Math.floor(diff / 86400000);
+            const h = Math.floor((diff % 86400000) / 3600000);
+            const m = Math.floor((diff % 3600000) / 60000);
+            const s = Math.floor((diff % 60000) / 1000);
+            document.getElementById("timer").innerText = `${d}d ${h}h ${m}m ${s}s`;
+        }
+        
+        updateTimer();
+        setInterval(updateTimer, 1000);
+
+        // 2. MUSIC
+        const audio = document.getElementById("myAudio");
+        const playBtn = document.getElementById("playBtn");
+        
+        playBtn.onclick = () => {
+            if (audio.paused) { 
+                audio.play(); 
+                playBtn.innerText = "⏸ Pause Music"; 
+            } else { 
+                audio.pause(); 
+                playBtn.innerText = "🎵 Play Our Song 🎀"; 
+            }
+        };
+
+        // 3. VALENTINE QUESTION LOGIC
+        const noBtn = document.getElementById('noBtn');
+        const yesBtn = document.getElementById('yesBtn');
+        const statusMsg = document.getElementById('statusMsg');
+        const questionText = document.getElementById('questionText');
+        let noClickCount = 0;
+        let yesFontSize = 2; // Starting font size in rem
+
+        const phrases = [
+            "Whoa! How'd that get there? 😅", 
+            "Haha! It's not supposed to do that! 🙈", 
+            "Uh oh! 😬", 
+            "Oopsie! 🏃‍♂️",
+            "Wait, come back! 😂",
+            "Almost had it! 👀",
+            "So close! Try again! 💨",
+            "Nope! Over here now! 👋",
+            "Missed me! 😏",
+            "Can't catch me! 🎯",
+            "One more try? 🤭",
+            "Getting warmer... not! 🔥"
+        ];
+
+        function moveNoButton() {
+            noClickCount++;
+            
+            // Make YES button bigger each time
+            yesFontSize += 0.3;
+            yesBtn.style.fontSize = yesFontSize + 'rem';
+            yesBtn.style.padding = (15 + noClickCount * 2) + 'px ' + (40 + noClickCount * 3) + 'px';
+            
+            // Make NO button fixed position and move it
+            noBtn.classList.add('moving');
+            
+            // Move NO button to random position
+            const maxX = window.innerWidth - 150;
+            const maxY = window.innerHeight - 80;
+            
+            let x = Math.random() * maxX;
+            let y = Math.random() * maxY;
+            
+            // Make sure it's not too close to YES button
+            const yesRect = yesBtn.getBoundingClientRect();
+            const yesCenterX = yesRect.left + yesRect.width / 2;
+            const yesCenterY = yesRect.top + yesRect.height / 2;
+            
+            // If too close, move it further away
+            if (Math.abs(x - yesCenterX) < 200 && Math.abs(y - yesCenterY) < 100) {
+                x = x < yesCenterX ? x - 200 : x + 200;
+            }
+            
+            noBtn.style.left = x + 'px';
+            noBtn.style.top = y + 'px';
+            
+            // Show random phrase
+            statusMsg.innerText = phrases[Math.floor(Math.random() * phrases.length)];
+            
+            // After 5 tries, make the message more encouraging
+            if (noClickCount === 5) {
+                statusMsg.innerText = "The YES button is looking pretty good right about now... 👀";
+            } else if (noClickCount === 10) {
+                statusMsg.innerText = "You know you want to click YES... 💕";
+            } else if (noClickCount > 15) {
+                statusMsg.innerText = "Just click YES already! I know you want to! 😊";
+            }
+        }
+
+        // NO button runs away on hover
+        noBtn.addEventListener('mouseover', moveNoButton);
+        
+        // NO button runs away on click attempt (for mobile)
+        noBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            moveNoButton();
+        });
+        
+        // NO button runs away on touch (for mobile)
+        noBtn.addEventListener('touchstart', (e) => {
+            e.preventDefault();
+            moveNoButton();
+        });
+
+        // YES button click
+        yesBtn.onclick = () => {
+            questionText.innerText = "Best Valentine's Day Ever! 🎉";
+            statusMsg.innerHTML = "I love you so much! ❤️❤️❤️<br>You've made me the happiest person alive! 💕";
+            yesBtn.innerText = "I KNOW! 💖";
+            yesBtn.style.fontSize = '2.5rem';
+            yesBtn.style.padding = '20px 50px';
+            noBtn.style.display = 'none';
+            
+            // Extra hearts celebration
+            for(let i = 0; i < 50; i++) {
+                setTimeout(createHeart, i * 100);
+            }
+        };
+
+        // 4. FLOATING HEARTS
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.className = 'floating-heart';
+            heart.innerHTML = '❤️';
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.top = '100vh';
+            heart.style.fontSize = Math.random() * 30 + 15 + 'px';
+            heart.style.opacity = Math.random() * 0.6 + 0.4;
+            document.body.appendChild(heart);
+            setTimeout(() => heart.remove(), 4000);
+        }
+        
+        setInterval(createHeart, 300);
+    </script>
+</body>
+</html>
